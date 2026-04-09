@@ -1,17 +1,27 @@
-name: First Pipeline
+name: CI + CD Pipeline
 
 on: push
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get Code
+      # Step 1: Get code
+      - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Show files (CI)
       - name: Show files
         run: ls
 
+      # Step 3: Print message (CI)
       - name: Print message
-        run: echo "Pipeline is working"
+        run: echo "CI Passed! Ready to deploy."
+
+      # Step 4: Simulate deployment (CD)
+      - name: Deploy to server folder
+        run: |
+          mkdir -p $HOME/server
+          cp -r * $HOME/server
+          echo "CD Done! Code deployed."
