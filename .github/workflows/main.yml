@@ -1,25 +1,31 @@
-name: CI + CD Pipeline
+name: Node CI + CD
 
-on: push
+on: push   # Run pipeline whenever code is pushed
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest   # GitHub gives a temporary Ubuntu machine
 
     steps:
-      # Step 1: Get code
+      # Step 1: Get your code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Show files (CI)
-      - name: Show files
-        run: ls
+      # Step 2: Install Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18   # Install Node version 18
 
-      # Step 3: Print message (CI)
-      - name: Print message
-        run: echo "CI Passed! Ready to deploy."
+      # Step 3: Install dependencies (CI)
+      - name: Install packages
+        run: npm install
 
-      # Step 4: Simulate deployment (CD)
+      # Step 4: Run tests (CI)
+      - name: Run tests
+        run: npm test
+
+      # Step 5: Deploy code (CD)
       - name: Deploy to server folder
         run: |
           mkdir -p $HOME/server
